@@ -187,6 +187,7 @@ def make_md(f, dirname, filename, nimages=3, keywords=[]):
 def main(dir="./xmrs", output="./out.md", keywords=[]):
     print("### dir", dir, "output", output, "keywords", keywords)
     xmlfiles= glob.glob(f"{dir}/*/*.xml")
+    print(xmlfiles)
     with open(output, "w") as f:
         f.write("---\n")
         f.write("marp: true\n")

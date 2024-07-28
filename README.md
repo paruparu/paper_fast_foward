@@ -1,3 +1,18 @@
+# パルのメモ
+query_arXiv.py mkmd.py arvixのpaperを検索してダウンロードするシステム
+
+ディレクトリは相対パスで書く
+python mkmd.py -o outputtest.md -d ./
+
+query_pdf.py mkmd_pdf.pyは指定したpaperを要約する
+```
+python query_pdf.py --pdf_file path to your directory/title_of_the_paper.pdf --dir ./xmls
+```
+```
+python mkmd_pdf.py --dir ./xmls --output output1.md
+```
+
+
 # Summarize arXiv paper with figures
 
 arXiv の論文を検索してPDFと書誌データ、chatGPTによる要約情報をxmlファイルとして保存する`query_arxiv.py` と、保存したxmlファイル（群）から 図を抜き出して marp 形式ファイル として保存する `mkmd.py`　から成る。

@@ -1,6 +1,7 @@
-arxiv
-dicttoxml
 openai
+pymupdf
+pypdf2
+python-dotenv
 Pillow
-PyMuPDF
 xmltodict
+dicttoxml
