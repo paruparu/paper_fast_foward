@@ -160,9 +160,10 @@ def get_half(fname, imgdir):
     im_cropped.save(half_img_path, "PNG")
     return half_img_path
 
+
 def get_metadata_from_pdf(pdf_path):
     if not os.path.exists(pdf_path):
-        print(f"File {pdf_path} does not exist.")
+        print(f"File {pdf_path} does not exist。")
         return None
 
     with open(pdf_path, "rb") as f:
@@ -180,11 +181,24 @@ def get_metadata_from_pdf(pdf_path):
         
         # Extract available metadata fields
         if info.title:
-            metadata['title'] = info.title
+            # Ensure title is a string and not a list of single characters
+            if isinstance(info.title, list):
+                metadata['title'] = ''.join(info.title)
+            else:
+                metadata['title'] = info.title
+        else:
+            metadata['title'] = "Unknown"
+        
         if info.author:
             metadata['authors'] = info.author.split(',')
+        else:
+            metadata['authors'] = ["Unknown"]
+
         if info.subject:
             metadata['subject'] = info.subject
+        else:
+            metadata['subject'] = "N/A"
+        
         if info.producer:
             metadata['producer'] = info.producer
         if info.creation_date:
@@ -192,14 +206,6 @@ def get_metadata_from_pdf(pdf_path):
         if info.modification_date:
             metadata['mod_date'] = info.modification_date
 
-        # Default fields if not available
-        if 'title' not in metadata:
-            metadata['title'] = "Unknown"
-        if 'authors' not in metadata:
-            metadata['authors'] = ["Unknown"]
-        if 'subject' not in metadata:
-            metadata['subject'] = "N/A"
-        
         # Extract text from the first few pages as abstract
         text = ""
         for page_num in range(min(3, len(reader.pages))):  # Extract from first 3 pages or less if fewer pages
@@ -207,10 +213,6 @@ def get_metadata_from_pdf(pdf_path):
         metadata['abstract'] = text[:2000]  # Limit to the first 2000 characters
 
         metadata['pdf_path'] = pdf_path
-        
-        print(f"Metadata for {pdf_path}:")
-        for key, value in metadata.items():
-            print(f"  {key.capitalize()}: {value}")
 
         return metadata
 
@@ -245,27 +247,38 @@ def get_paper_info(pdf_path, metadata, dirpath="./xmls"):
     return combined_info
 
 def convert_lists_to_strings(d):
-    """Recursively convert lists of single characters to strings."""
+    """Recursively convert lists of single characters to strings and handle special types."""
+    from PyPDF2.generic import TextStringObject
+    
     if isinstance(d, dict):
         for key, value in d.items():
-            if isinstance(value, list):
-                if all(isinstance(i, str) and len(i) == 1 for i in value):
-                    d[key] = ''.join(value)
-                else:
-                    d[key] = [convert_lists_to_strings(item) for item in value]
+            if isinstance(value, list) and all(isinstance(i, str) for i in value):
+                d[key] = ''.join(value)
+            elif isinstance(value, TextStringObject):
+                d[key] = str(value)
+            elif isinstance(value, list):
+                d[key] = [convert_lists_to_strings(item) for item in value]
             else:
                 d[key] = convert_lists_to_strings(value)
+    elif isinstance(d, list) and all(isinstance(i, str) for i in d):
+        d = ''.join(d)
     elif isinstance(d, list):
         d = [convert_lists_to_strings(item) for item in d]
+    elif isinstance(d, TextStringObject):
+        d = str(d)
     return d
 
 def save_as_xml(data, filepath):
     # Convert lists of single characters to strings
     data = convert_lists_to_strings(data)
     
+    # Generate XML content
     xml_content = dicttoxml.dicttoxml(data, attr_type=False, root=False).decode('utf-8')
+    
+    # Pretty print the XML
     pretty_xml = minidom.parseString(xml_content).toprettyxml(indent="   ")
     
+    # Write to file
     with open(filepath, "w") as xml_file:
         xml_file.write(pretty_xml)
 

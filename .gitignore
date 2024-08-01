@@ -1,1 +1,4 @@
 .env
+xmls/*
+pdf*
+!pdf/pdf_here
