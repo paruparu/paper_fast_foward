@@ -21,16 +21,16 @@ __結果__ 自己組織化したチームが同期的に働くことで、クラ
 
 ---
 <!-- _class: info -->
-![width:1400](/xmls/Harnessing_Collective_Differences/images/half.png)
+![width:1400](../xmls/Harnessing_Collective_Differences/images/half.png)
 
 ---
 <!-- _class: info -->
-![width:1120](/xmls/Harnessing_Collective_Differences/images/img06_00127.png)
+![width:1120](../xmls/Harnessing_Collective_Differences/images/img06_00127.png)
 
 ---
 <!-- _class: info -->
-![width:1120](/xmls/Harnessing_Collective_Differences/images/img08_00146.png)
+![width:1120](../xmls/Harnessing_Collective_Differences/images/img08_00146.png)
 
 ---
 <!-- _class: info -->
-![width:1097](/xmls/Harnessing_Collective_Differences/images/img07_00139.png)
+![width:1097](../xmls/Harnessing_Collective_Differences/images/img07_00139.png)

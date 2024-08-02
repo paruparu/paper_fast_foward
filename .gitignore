@@ -2,3 +2,4 @@
 xmls/*
 pdf*
 !pdf/pdf_here
+output*

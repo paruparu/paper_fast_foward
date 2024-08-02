@@ -62,12 +62,10 @@ def make_md(dirname, filename, output_dir='./output', min_size_kb=100):
         f.write(f"__結果__ {result}\n")
 
         # Calculate relative path for half image
-        absolute_half_img_path = os.path.abspath(half_img_path)
-        project_root = os.path.abspath(os.path.join(dirname, '../../'))
-        relative_half_img_path = os.path.relpath(absolute_half_img_path, project_root)
+        relative_half_img_path = os.path.relpath(half_img_path, output_dir)
         f.write("\n---\n")
         f.write('<!-- _class: info -->\n') 
-        f.write(f'![width:1400](/{relative_half_img_path})\n')
+        f.write(f'![width:1400]({relative_half_img_path})\n')
 
         # get images
         images_dir = os.path.join(dirname, "images")
@@ -87,8 +85,7 @@ def make_md(dirname, filename, output_dir='./output', min_size_kb=100):
 
         for img in valid_images:
             img_path = os.path.join(images_dir, img)
-            absolute_img_path = os.path.abspath(img_path)
-            relative_img_path = os.path.relpath(absolute_img_path, project_root)
+            relative_img_path = os.path.relpath(img_path, output_dir)
             with Image.open(img_path) as image:
                 width, height = image.size
                 x_ratio = (1600.0 * 0.7) / float(width)
@@ -98,7 +95,7 @@ def make_md(dirname, filename, output_dir='./output', min_size_kb=100):
 
                 f.write("\n---\n")
                 f.write('<!-- _class: info -->\n') 
-                f.write(f'![width:{resized_width}](/{relative_img_path})\n')
+                f.write(f'![width:{resized_width}]({relative_img_path})\n')
 
         # もし有効な画像がない場合、警告を表示
         if not valid_images:
