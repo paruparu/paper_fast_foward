@@ -6,12 +6,12 @@ python mkmd.py -o outputtest.md -d ./
 
 query_pdf.py mkmd_pdf.pyは指定したpaperを要約する
 ```
-python query_pdf.py --pdf_file path to your directory/title_of_the_paper.pdf --dir ./xmls
+python query_pdf.py --pdf_file [path to your directory/title_of_the_paper.pdf] (--dir ./xmls)
 ```
 ```
-python mkmd_pdf.py --dir ./xmls --output output1.md
+python mkmd_pdf.py --dir ./xmls (--output ./output)
 ```
-
+デフォルトで、 (--dir ./xmls),(--output ./output)になっています。
 
 # Summarize arXiv paper with figures
 

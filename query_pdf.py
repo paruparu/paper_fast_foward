@@ -35,7 +35,7 @@ def get_summary(metadata):
     print("### input text", text)
     
     response = openai.ChatCompletion.create(
-                model='gpt-4',
+                model='gpt-4o',
                 messages=[
                     {'role': 'system', 'content': prompt},
                     {'role': 'user', 'content': text}
@@ -172,8 +172,8 @@ def get_metadata_from_pdf(pdf_path):
         if reader.is_encrypted:
             try:
                 reader.decrypt('')
-            except:
-                print(f"Failed to decrypt {pdf_path}")
+            except Exception as e:
+                print(f"Failed to decrypt {pdf_path}: {e}")
                 return None
         
         info = reader.metadata
